@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "003MultiTurn": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
