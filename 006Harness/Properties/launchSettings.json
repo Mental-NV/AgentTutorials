@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "006Harness": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
