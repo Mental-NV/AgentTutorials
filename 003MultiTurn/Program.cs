@@ -1,14 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System.Diagnostics;
 using Azure.AI.Projects;
 using Azure.Identity;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-
-[Description("Get the weather for a given location.")]
-static string GetWeather([Description("The location to get the weather for.")] string location)
-    => $"The weather in {location} is cloudy with a high of 15°C.";
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 IConfiguration config = builder.Configuration;
@@ -22,11 +18,12 @@ Console.WriteLine($"Deployment name: {deploymentName}");
 AIAgent agent = new AIProjectClient(new Uri(azureEndpoint), new DefaultAzureCredential())
     .AsAIAgent(
         model: deploymentName,
-        instructions: "You are a helpful assistant.",
-        tools: [AIFunctionFactory.Create(GetWeather)]
+        instructions: "You are a friendly assistant. Keep your answers brief.",
+        name: "ConversatonAgent"
     );
 
-await foreach (AgentResponseUpdate update in agent.RunStreamingAsync("What is the weather like in Amsterdam?"))
-{
-    Console.Write(update);
-}
+AgentSession session = await agent.CreateSessionAsync();
+
+Console.WriteLine(await agent.RunAsync("My name is Alice and I like hiking.", session));
+
+Console.WriteLine(await agent.RunAsync("What do you remember about me?", session));
