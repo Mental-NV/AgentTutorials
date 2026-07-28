@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "002Tools": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
