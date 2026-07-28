@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "003MultiTurn": {
+    "004Memory": {
       "commandName": "Project",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"
