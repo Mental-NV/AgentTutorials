@@ -14,9 +14,6 @@ using OpenAI.Chat;
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 IConfiguration config = builder.Configuration;
 
-string endpoint = config["AZURE_OPENAI_ENDPOINT"] ?? throw new ApplicationException("Set AZURE_OPENAI_ENDPOINT");
-Console.WriteLine($"Azure endpoint: {endpoint}");
-
 string azureEndpoint = config["FOUNDRY_PROJECT_ENDPOINT"] ?? throw new ApplicationException("Set FOUNDRY_PROJECT_ENDPOINT");
 Console.WriteLine($"Azure endpoint: {azureEndpoint}");
 
@@ -30,7 +27,10 @@ IChatClient chatClient = new AIProjectClient(new Uri(azureEndpoint), new Default
     .AsIChatClient(deploymentName);
 #pragma warning restore OPENAI001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
-AIAgent agent = new HarnessAgent(chatClient);
+AIAgent agent = new HarnessAgent(chatClient, new HarnessAgentOptions() 
+{
+    DisableWebSearch = true
+});
 
 var session = await agent.CreateSessionAsync();
 
